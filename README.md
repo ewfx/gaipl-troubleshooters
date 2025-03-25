@@ -35,7 +35,7 @@ This platform streamlines critical workflows by providing an NLP-driven interfac
 
 ## 💡 Inspiration
 
-We were inspired to create PlatformNexus by the transformative potential of AI, particularly LLMs, to revolutionize IT operations. The problem we identified is that while IT systems generate a wealth of data, extracting actionable insights and automating routine tasks remains a significant challenge. Engineers are often overwhelmed by manual processes and lack the tools to leverage this data effectively. PlatformNexus solves this by providing an NLP interface and intelligent AI agents that automate key workflows, allowing IT teams to harness the power of AI to streamline operations, improve efficiency, and drive innovation.
+We were inspired to create **Platform Nexus** by the transformative potential of AI, particularly LLMs, to revolutionize IT operations. The problem we identified is that while IT systems generate a wealth of data, extracting actionable insights and automating routine tasks remains a significant challenge. Engineers are often overwhelmed by manual processes and lack the tools to leverage this data effectively. PlatformNexus solves this by providing an NLP interface and intelligent AI agents that automate key workflows, allowing IT teams to harness the power of AI to streamline operations, improve efficiency, and drive innovation.
 
 
 ## ⚙️ What It Does
