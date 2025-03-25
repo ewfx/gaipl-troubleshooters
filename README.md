@@ -1,4 +1,4 @@
-# 🚀 Project Name
+# 🚀 Platform Nexus
 
 ## 📌 Table of Contents
 - [Introduction](#introduction)
@@ -14,22 +14,29 @@
 ---
 
 ## 🎯 Introduction
-```
+
 Tired of sifting through endless logs and juggling disparate tools? 
-PlatformNexus is our solution to the plethora of IT operations.  This platform streamlines critical workflows by providing an NLP-driven interface to LLMs and a suite of intelligent AI agents.  We're solving the problem of operational bottlenecks, enabling engineers to quickly diagnose incidents, automate remediation, and proactively manage their applications, ultimately leading to increased efficiency and reduced downtime.
-```
+PlatformNexus is our solution to the plethora of IT operations.  
+This platform streamlines critical workflows by providing an NLP-driven interface to LLMs and a suite of intelligent AI agents.  We're solving the problem of operational bottlenecks, enabling engineers to quickly diagnose incidents, automate remediation, and proactively manage their applications, ultimately leading to increased efficiency and reduced downtime.
+
 
 ## 🎥 Demo
 🔗 [Live Demo](#) (if applicable)  
 📹 [Video Demo](#) (if applicable)  
 🖼️ Screenshots:
 
-![Screenshot 1](link-to-image)
+![Landing Page](./artifacts/demo/landing-page.png)
+
+![Heal Agent](./artifacts/demo/heal-agent.png)
+
+![Runbook Generation](./artifacts/demo/runbook-gen.png)
+
+![CR Tracker Agent](./artifacts/demo/cr-tracker.png)
 
 ## 💡 Inspiration
-```
+
 We were inspired to create PlatformNexus by the transformative potential of AI, particularly LLMs, to revolutionize IT operations. The problem we identified is that while IT systems generate a wealth of data, extracting actionable insights and automating routine tasks remains a significant challenge. Engineers are often overwhelmed by manual processes and lack the tools to leverage this data effectively. PlatformNexus solves this by providing an NLP interface and intelligent AI agents that automate key workflows, allowing IT teams to harness the power of AI to streamline operations, improve efficiency, and drive innovation.
-```
+
 
 ## ⚙️ What It Does
 
@@ -94,10 +101,10 @@ PlatformNexus provides a revolutionary approach to IT operations with these key 
    
 
 ## 🏗️ Tech Stack
-- 🔹 Frontend: React
-- 🔹 Backend: Python
-- 🔹 Data Storage: Local Filesystem, Blob Storage
-- 🔹 AI/ML: OpenAI, Gemini, MCP, k8sgpt
+- 🔹 **Frontend**: React
+- 🔹 **Backend**: Python
+- 🔹 **Data Storage**: Local Filesystem, Blob Storage
+- 🔹 **AI/ML**: OpenAI, Gemini, MCP, k8sgpt
 
 ## 👥 Team
 - **Ajay Naik**
