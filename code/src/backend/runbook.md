@@ -1,83 +1,89 @@
-# Runbook: Kubernetes Node Resource Exhaustion - mortgagelending Application
+# Runbook: Mortgagelending Application Incidents (INC-1 & INC-4)
 
 ## Executive Summary
 
-This runbook outlines the steps to resolve a P1 incident affecting the `mortgagelending` application due to insufficient resources (CPU and memory) on the Kubernetes cluster. The issue manifests as pods failing to schedule due to resource constraints, resulting in zero available nodes. This document provides a structured approach to diagnose, mitigate, and prevent future occurrences of this issue.
+This runbook addresses two critical incidents (INC-1 and INC-4) affecting the "mortgagelending" application. INC-1 involves a replica mismatch, with two replicas running instead of the desired one. INC-4 involves resource starvation, preventing pod scheduling due to insufficient CPU and memory. This document outlines the steps to resolve both incidents, including verification, rollback, and troubleshooting procedures.
 
 ## Detailed Issue Description and Impact
 
-On 4/10/2023, 4:30:00 pm, the `mortgagelending` application became unavailable.  Kubernetes reports "0/4 nodes are available: 2 Insufficient memory, 3 Insufficient cpu. preemption: 0/4 nodes are available: 4 No preemption victims found for incoming pod."  This indicates that the cluster nodes are exhausted of both memory and CPU resources, preventing new pods from scheduling, including those belonging to the `mortgagelending` application.  This results in application downtime and potential business disruption.
+* **INC-1 (Replica Mismatch):** The mortgagelending application has two running replicas despite the desired replica count being one. This can lead to data inconsistency, resource contention, and unpredictable application behavior.
+
+* **INC-4 (Resource Starvation):**  Pods for the mortgagelending application are failing to schedule due to insufficient CPU and memory resources within the Kubernetes cluster. This prevents new instances of the application from starting, impacting availability and potentially causing outages.  This may also affect other applications running in the cluster.
 
 ## Prerequisites
 
-* **Tools:** `kubectl`, `kubectl top nodes`, `kubectl top pods`, `kubectl describe nodes`, `kubectl describe pods <pod-name>`
-* **Access:** Kubernetes cluster administrator access.
-* **Credentials:** Valid Kubernetes configuration (`kubeconfig`).
+* **Tools:**
+    * `kubectl` command-line tool configured to access the Kubernetes cluster.
+    * Access to the Kubernetes cluster dashboard (optional, but helpful).
+    * Monitoring tools (e.g., Prometheus, Grafana) to observe resource utilization.
+
+* **Access:**
+    * Kubernetes cluster administrator or equivalent privileges.
+
+* **Credentials:**
+    * Valid Kubernetes configuration file (`kubeconfig`).
 
 
 ## Step-by-Step Implementation Instructions
 
-**1. Identify Resource Bottlenecks:**
+### Resolving INC-1 (Replica Mismatch)
 
-```bash
-kubectl top nodes
-kubectl top pods --all-namespaces
-```
+1. **Identify the extra replica:**
+   ```bash
+   kubectl get pods -l app=mortgagelending
+   ```
+2. **Delete the extra replica:**  Replace `<pod-name>` with the name of the extra pod.
+   ```bash
+   kubectl delete pod <pod-name>
+   ```
+3. **Verify the replica count:**
+   ```bash
+   kubectl get deployments mortgagelending
+   ```
+   Ensure the "DESIRED" and "CURRENT" replica counts are both 1.
 
-Analyze the output to pinpoint nodes and pods consuming the most resources.
+### Resolving INC-4 (Resource Starvation)
 
-**2. Check for Resource Requests and Limits:**
-
-```bash
-kubectl describe pods -n <mortgagelending-namespace> | grep -E "Resources:|Requests:|Limits:"
-```
-
-Verify if the `mortgagelending` pods have defined resource requests and limits.  Lack of these can lead to resource starvation.
-
-**3. Scale Up Nodes (Horizontal Scaling):**
-
-If resource requests and limits are appropriately set and the cluster is genuinely resource-constrained, scale up the number of nodes. This involves:
-
-```bash
-kubectl scale --replicas=<desired-number-of-replicas> deployment/<mortgagelending-deployment> -n <mortgagelending-namespace>  # If deployment
-# OR
-kubectl scale --replicas=<desired-number-of-replicas> statefulset/<mortgagelending-statefulset> -n <mortgagelending-namespace> # If statefulset
-# OR
-# Adjust your cluster autoscaler settings if enabled.
-```
-
-**4. Optimize Application Resource Usage (Vertical Scaling):**
-
-If scaling up nodes is not immediately feasible or desired, consider optimizing resource usage within the `mortgagelending` application:
-
-* **Reduce Replicas (if applicable):**  Temporarily reduce the number of replicas if the application can tolerate reduced capacity.
-* **Code Optimization:** Investigate and optimize the application code for improved resource efficiency. This is a longer-term solution.
-* **Resource Limit Adjustments:**  Adjust resource requests and limits for `mortgagelending` pods based on observed usage. Be cautious not to set limits too low, preventing proper application function.
+1. **Investigate resource usage:**
+   ```bash
+   kubectl top nodes
+   kubectl top pods -n <namespace>  # Replace <namespace> with the application's namespace
+   ```
+2. **Option 1: Scale down other non-critical applications:**  If other applications are consuming excessive resources, consider scaling them down temporarily to free up resources for mortgagelending.
+3. **Option 2: Increase cluster resources:**  If scaling down other applications is not feasible, add more nodes to the cluster or increase the resource limits of existing nodes. This usually involves interacting with your cloud provider or infrastructure team.
+4. **Option 3: Optimize resource requests and limits for mortgagelending:**  Review the resource requests and limits defined in the mortgagelending deployment YAML file. If they are too high, adjust them to more appropriate values.  If they are too low and causing throttling, carefully increase them.
+   ```bash
+   kubectl describe deployment mortgagelending
+   kubectl edit deployment mortgagelending # Edit resource requests and limits
+   ```
 
 
 ## Verification Procedures
 
-* **Pod Status:** Verify that `mortgagelending` pods are running and in a `Ready` state.
-```bash
-kubectl get pods -n <mortgagelending-namespace>
-```
-* **Application Functionality:** Test the `mortgagelending` application to ensure it is functioning correctly.
-* **Resource Usage:** Monitor node and pod resource usage using `kubectl top nodes` and `kubectl top pods` to ensure resources are within acceptable levels.
+* **INC-1:** Verify that only one replica of the mortgagelending application is running using `kubectl get pods -l app=mortgagelending`.
+* **INC-4:** Verify that new pods for the mortgagelending application are scheduling successfully and entering a running state. Monitor resource utilization to ensure that sufficient resources are available.  Check application logs for any errors related to resource constraints.
 
 ## Rollback Instructions
 
-If scaling up or resource adjustments cause unexpected issues:
+### INC-1 (Replica Mismatch):
 
-* **Scale Down Nodes:**  Reduce the number of nodes back to the original count.
-* **Revert Resource Changes:**  Revert any changes made to resource requests and limits for `mortgagelending` pods.
-* **Rollback Deployment:** If code changes were deployed, roll back to the previous stable version of the application.
+If accidentally deleting the wrong pod, the deployment will automatically recreate a new pod to maintain the desired replica count of 1. No manual rollback is required.
+
+### INC-4 (Resource Starvation):
+
+* **If you scaled down other applications:** Scale them back up to their original replica counts.
+* **If you modified resource requests/limits:** Revert the deployment YAML to its previous version:
+    ```bash
+    kubectl rollout undo deployment/mortgagelending
+    ```
+* **If you added nodes:**  The process for removing nodes depends on your cloud provider or infrastructure setup. Consult your provider's documentation.
+
 
 ## Troubleshooting
 
-* **Pods Stuck in Pending State:** Check for insufficient resources, incorrect resource requests/limits, or other scheduling constraints. Use `kubectl describe pod <pod-name>` for detailed information.
-* **Nodes Not Joining the Cluster:** Verify network connectivity, kubelet configuration, and control plane health.
-* **Persistent Volume Claims (PVCs) Not Binding:** Check for available storage and correct PVC configurations.
-* **Application Errors:** Check application logs for specific errors and troubleshoot accordingly.  Use `kubectl logs <pod-name> -n <mortgagelending-namespace>`
+* **Pods still failing to schedule:** Check for other potential issues like PersistentVolumeClaim (PVC) binding failures, image pull errors, or security context misconfigurations. Examine pod logs and events (`kubectl describe pod <pod-name>` and `kubectl get events`) for clues.
+* **Replica mismatch persists:** Check the deployment configuration for any unintentional updates or scaling events. Review the replicaset controller to ensure it is functioning correctly.
+* **Resource usage remains high:**  Investigate potential memory leaks or inefficient code within the application. Profile the application to identify performance bottlenecks.
 
 
-This runbook provides a framework for addressing resource exhaustion issues. Remember to adapt the steps and commands to your specific environment and application configuration.  Regular monitoring and proactive resource management are crucial for preventing future incidents.
+This runbook provides a comprehensive guide to resolving the mortgagelending application incidents. Remember to adapt the steps and commands to your specific environment and configuration.  Regularly review and update this runbook to reflect changes in your infrastructure and application.
