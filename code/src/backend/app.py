@@ -10,7 +10,7 @@ CORS(app)  # Enable CORS for cross-origin requests
 
 # Configure API keys
 os.environ["OPENAI_API_KEY"] = "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"
-os.environ["GOOGLE_API_KEY"] = "AIzaSyDDkEk07-Y9ISJXKTWyJBArz19mYXMPEwM"
+os.environ["GOOGLE_API_KEY"] = "AIzaSyALENrXIslUHsrTlwHqV_qpItxC17J08co"
 
 # Dynamically determine the base directory
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
