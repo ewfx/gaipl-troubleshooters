@@ -28,7 +28,8 @@ PlatformNexus integrates LLM with domain-specific agents to create a comprehensi
 ### 2.1 High-Level Architecture
 PlatformNexus follows a modular, decoupled architecture:
 
-- Architecture Diagram [https://github.com/ewfx/gaipl-troubleshooters/blob/main/artifacts/arch/PlatformNexus.png]
+- Architecture Diagram 
+![alt text](https://github.com/ewfx/gaipl-troubleshooters/blob/main/artifacts/arch/PlatformNexus.png)
 
 ### 2.2 Component Description
 
