@@ -21,7 +21,6 @@ This platform streamlines critical workflows by providing an NLP-driven interfac
 
 
 ## 🎥 Demo
-🔗 [Live Demo](#) (if applicable)  
 📹 [Video Demo](artifacts/demo/PlatformNexus.mp4) (Uploaded)  
 🖼️ Screenshots:
 
