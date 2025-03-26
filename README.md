@@ -110,5 +110,5 @@ PlatformNexus provides a revolutionary approach to IT operations with these key 
 - **Ajay Naik**
 - **Hemant Nagpure**
 - **Indumathy Thiagarajan** - [GitHub](https://github.com/t-indumathy) | [LinkedIn](https://linkedin.com/in/indumathy-thiagarajan)
-- **Lakshmi Gopinathan**
+- **Lakshmi Gopinathan** - [GitHub](https://github.com/lakshmigpnthn) | [LinkedIn](https://linkedin.com/in/lakshmigpnthn)
 - **Prince Vijan**
