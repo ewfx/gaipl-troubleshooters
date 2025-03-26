@@ -1,6 +1,12 @@
 import os
 import pytest
 from unittest.mock import patch, mock_open
+import sys
+# Import os module for interacting with the operating system
+import os
+
+# Add the parent directory to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import code.src.backend.heal_agent as heal_agent
 #from code.src.backend.heal_agent import generate_heal_script_with_model, generate_heal_script
 

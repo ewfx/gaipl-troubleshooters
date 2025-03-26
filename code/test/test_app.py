@@ -1,13 +1,22 @@
+# Import sys module for modifying Python's runtime environment
+import sys
+# Import os module for interacting with the operating system
+import os
+
+# Add the parent directory to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Import the Flask app instance from the main app file
+#from app import app 
+from code.src.backend.app import app
+# Import pytest for writing and running tests
 import pytest
-from flask import Flask
-import code.src.backend.app as app
 
 @pytest.fixture
 def client():
-    app.config['TESTING'] = True
+    """A test client for the app."""
     with app.test_client() as client:
         yield client
-
 def test_handle_query(client):
     response = client.post('/query', json={'query': 'check memory'})
     assert response.status_code == 200

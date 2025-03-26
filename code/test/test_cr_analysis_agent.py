@@ -1,7 +1,12 @@
 import pytest
 from unittest.mock import patch, MagicMock
 
+import sys
+# Import os module for interacting with the operating system
+import os
 
+# Add the parent directory to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from code.src.backend.cr_analysis_agent import analyze_cr_with_model, analyze_cr
 
 @pytest.fixture
