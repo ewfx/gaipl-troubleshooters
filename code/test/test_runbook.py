@@ -7,7 +7,7 @@ import json
 # Import the module to test (assuming it's in a file called runbook.py)
 # If you have a different filename, update this import
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../src'))
-from runbook import create_runbook_from_steps, generate_with_gemini
+from code.src.backend.runbook import create_runbook_from_steps, generate_with_gemini
 
 class TestRunboo(unittest.TestCase):
     """Test cases for the runbook functionality."""

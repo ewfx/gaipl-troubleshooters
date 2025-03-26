@@ -4,10 +4,13 @@ import json
 import sys
 import asyncio
 from io import StringIO
+import os
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../src'))
 
 # Import the module to test
-import mcp_integration
+#import mcp_integration
+#from code.src import mcp_integration
+import code.src.backend.mcp_integration as mcp_integration
 
 class TestMCPURLFetchAgentWithGemini(unittest.TestCase):
     """Test cases for the MCP URL fetch agent application with Gemini LLM."""
